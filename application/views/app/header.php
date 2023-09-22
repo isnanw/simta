@@ -8,8 +8,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="generator" content="Hugo 0.87.0" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-    <meta name="description" content="SITAWA Kab Mimika.">
-    <title>SITAWA</title>
+    <meta name="description" content="SIMTA Kab Mimika.">
+    <title>SIMTA</title>
     <link rel="shortcut icon" type="image/x-icon" href="<?=base_url("logo.png"); ?>">
 
     <!-- STYLESHEETS -->
@@ -45,9 +45,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?=base_url('assets');?>/AdminLTE-3.1.0/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- <link rel="stylesheet" href="<?=base_url('assets');?>/AdminLTE-3.1.0/dist/css/adminlte.min.css"> -->
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
     <!-- jQuery -->
-    <script src="<?=base_url('assets');?>/AdminLTE-3.1.0/plugins/jquery/jquery.min.js"></script>
-    <script src="<?=base_url('assets');?>/AdminLTE-3.1.0/plugins/jquery/md5.js"></script>
+    <script src="<?= base_url('assets'); ?>/AdminLTE-3.1.0/plugins/jquery/jquery.min.js"></script>
+    <script src="<?= base_url('assets'); ?>/AdminLTE-3.1.0/plugins/jquery/md5.js"></script>
 
 </head>
 

@@ -12,7 +12,7 @@ class Auth extends CI_Controller {
 	public function login()
 	{
 		$this->load->view('loginku');
-		// $data['judul'] = "LOGIN SITAWA";
+		// $data['judul'] = "LOGIN SIMTA";
 		// $this->template->render_page('loginku', $data);
 	}
 
