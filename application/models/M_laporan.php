@@ -78,6 +78,15 @@ class M_laporan extends CI_Model
         return $this->db->query($query)->row_array();
     }
 
+	public function readdetaillokasi($id)
+	{
+		$query = "
+    			SELECT * from lokasi
+				 WHERE id = '$id'
+    			 ";
+		return $this->db->query($query)->row_array();
+	}
+
     public function readdokumen($nip)
     {
     	$query = "
