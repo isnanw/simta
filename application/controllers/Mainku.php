@@ -140,10 +140,10 @@ class Mainku extends CI_Controller
                                               j.kodeberkas
                                             order by
                                               jumlah DESC;')->result_array(),
-        'jumlahpegawai' => $this->mmd->countPegawai(),
-        'jumlahcpns' => $this->mmd->countCPNS(),
-        'jumlahpns' => $this->mmd->countPNS(),
-        'jumlahhonorer' => $this->mmd->countHonorer(),
+        // 'jumlahpegawai' => $this->mmd->countPegawai(),
+        // 'jumlahcpns' => $this->mmd->countCPNS(),
+        // 'jumlahpns' => $this->mmd->countPNS(),
+        // 'jumlahhonorer' => $this->mmd->countHonorer(),
       ];
 
       $menu = [];

@@ -50,10 +50,26 @@ class Lokasi extends CI_Controller
     else
       $filter = "";
 
-    $search = '';
-    if ($this->input->post("search")['value'] != '')
-      $search = "WHERE lokasi like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%' ";
-    $sql = "SELECT * FROM lokasi " . $search . " ";
+    $sts = $this->input->post('filter');
+    if (!empty($sts)) {
+      if ($sts == 0) {
+        $search = "";
+      } elseif ($sts == 1) {
+        $search = "WHERE statustanah = 1 ";
+      } elseif ($sts == 2) {
+        $search = "WHERE statustanah = 2 ";
+      }
+    } elseif ($this->input->post("search")['value'] != ''){
+      $search = "WHERE LOWER(lokasi) like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%' ";
+    }
+
+    $sql = "SELECT * FROM lokasi " . $search . " ORDER BY id " . $filter;
+
+
+    // $search = '';
+    // if ($this->input->post("search")['value'] != '')
+    //   $search = "WHERE lokasi like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%' ";
+    // $sql = "SELECT * FROM lokasi " . $search . " ";
     $totaldata = $this->db->query($sql)->num_rows();
 
     $sql = "SELECT * FROM lokasi " . $search . " ORDER BY id " . $filter;
@@ -63,7 +79,7 @@ class Lokasi extends CI_Controller
 			$row['aksi'] = "
 			<a href=\"" . base_url('lokasi/ubah?id=') . $row["id"] . "\" class=\"btn btn-sm btn-warning\"><i class=\"fa fa-edit\"></i> </a>
 			<button class=\"btn btn-sm btn-danger\" onClick=\"del('" . $row["id"] . "')\"><i class=\"fa fa-trash-alt\"></i></button>";
-      if($row['statustanah'] = 1){
+      if ($row['statustanah'] == 1) {
         $row['statustanah'] = 'Data Tanah Bermasalah';
       }else{
         $row['statustanah'] = 'Data Tanah Tidak Bermasalah';

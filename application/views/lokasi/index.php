@@ -19,7 +19,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <section id="content" class="content">
   <div class="content__header content__boxed overlapping">
     <div class="content__wrap">
-      <h1 class="page-title mb-0 mt-2"><?= $judul; ?></h1>
+      <h1 class="page-title mb-0 mt-2">
+        <?= $judul; ?>
+      </h1>
       <p class="lead">
         <?= $diskripsi; ?>
       </p>
@@ -35,9 +37,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <div class="card">
                 <div class="card-header">
                   <div class="row">
-                    <div col-6>
-                      <a href="<?= base_url('lokasi/tambah'); ?>" type="button" class="btn btn-primary"><i class="nav-icon fas fa-plus"></i>
-                      Tambah </a>
+                    <div class="col-md-3">
+                      <label for="filter"><b>Filter Status Tanah</b></label>
+                      <select id="filter" name="filter" class="form-control">
+                        <option value="0">---Semua---</option>
+                        <option value="2">Data Tanah Tidak Bermasalah</option>
+                        <option value="1">Data Tanah Bermasalah</option>
+                      </select>
+                      <br>
+                      <a href="<?= base_url('lokasi/tambah'); ?>" type="button" class="btn btn-primary"><i
+                          class="nav-icon fas fa-plus"></i>
+                        Tambah </a>
+                      <button type="button" id="btn-filter" class="btn btn-success"><i
+                          class="nav-icon fas fa-check"></i>Filter</button>
                     </div>
                   </div>
                 </div>
@@ -70,7 +82,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <footer class="mt-auto">
     <div class="content__boxed">
       <div class="content__wrap py-3 py-md-1 d-flex flex-column flex-md-row align-items-md-center">
-        <div class="text-nowrap mb-4 mb-md-0">Copyright &copy; 2023 <a href="#" class="ms-1 btn-link fw-bold">SIMTA Kab Mimika</a></div>
+        <div class="text-nowrap mb-4 mb-md-0">Copyright &copy; 2023 <a href="#" class="ms-1 btn-link fw-bold">SIMTA Kab
+            Mimika</a></div>
         <nav class="nav flex-column gap-1 flex-md-row gap-md-3 ms-md-auto" style="row-gap: 0 !important;">
           <!-- <a class="nav-link px-0" href="#">Policy Privacy</a>
                       <a class="nav-link px-0" href="#">Terms and conditions</a>
@@ -134,7 +147,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       $.ajax({
         url: '<?= base_url($this->router->class . '/hapus/'); ?>' + id,
         type: 'GET',
-        success: function(data) {
+        success: function (data) {
           var json = $.parseJSON(data);
           if (json.status == "ok") {
             toastr.success(json.msg);
@@ -149,12 +162,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $.ajax({
       url: '<?= base_url($this->router->class . '/get/'); ?>' + id,
       type: 'GET',
-      success: function(data) {
+      success: function (data) {
         var json = $.parseJSON(data);
         $("#id").val(json.id);
         $("#nama").val(json.nama);
         tblDetail.clear().draw();
-        $.each(JSON.parse(json.data), function(key, val) {
+        $.each(JSON.parse(json.data), function (key, val) {
           tblDetail.rows.add([{
             "attr": key,
             "data": val
@@ -170,7 +183,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 
-  $(function() {
+  $(function () {
     tblDetail = $("#tblDetail").DataTable({
       "lengthMenu": [
         [10, 25, 50, -1],
@@ -181,11 +194,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
       "autoWidth": false,
       "paging": true,
       "columns": [{
-          "data": "attr"
-        },
-        {
-          "data": "data"
-        },
+        "data": "attr"
+      },
+      {
+        "data": "data"
+      },
       ],
     });
 
@@ -204,33 +217,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
       "ajax": {
         "url": "<?= base_url($this->router->class . '/list'); ?>",
         "type": "POST",
-        "data": function(data) {
+        "data": function (data) {
           data.filter = $('#filter').val();
         }
       },
       "columns": [{
-          "data": "id"
-        },
-        {
-          "data": "lokasi"
-        },
-        {
-          "data": "distrik"
-        },
-        {
-          "data": "tahunpengadaan"
-        },
-        {
-          "data": "statustanah"
-        },
-        {
-          "data": "aksi"
-        },
+        "data": "id"
+      },
+      {
+        "data": "lokasi"
+      },
+      {
+        "data": "distrik"
+      },
+      {
+        "data": "tahunpengadaan"
+      },
+      {
+        "data": "statustanah"
+      },
+      {
+        "data": "aksi"
+      },
       ],
       "buttons": ["copy", "csv", "excel", "pdf", "print"],
     }).buttons().container().appendTo('#tblData_wrapper .col-md-6:eq(0)');
 
-    $('#btn-filter').click(function() {
+    $('#btn-filter').click(function () {
       $('#tblData').DataTable().ajax.reload();
     });
   });

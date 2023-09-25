@@ -13,12 +13,14 @@ class Datapns extends CI_Controller
 
 	public function index()
 	{
-		if (@sizeof($this->session->userdata('user')) < 1) redirect('/auth/login', 'refresh');
-		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER'])) redirect('/mainku/dashboard', 'refresh');
+		if (@sizeof($this->session->userdata('user')) < 1)
+			redirect('/auth/login', 'refresh');
+		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER']))
+			redirect('/mainku/dashboard', 'refresh');
 		// if ($this->session->userdata('user')['role']!='MAINTAINER') redirect('/mainku/dashboard', 'refresh');
 
 		$data = [
-			'judul'			=> 'Data Pegawai',
+			'judul' => 'Data Pegawai',
 			'diskripsi' => '<hr>'
 		];
 
@@ -34,15 +36,19 @@ class Datapns extends CI_Controller
 	//fungsi-fungsi AJAX
 	public function list()
 	{
-		if (sizeof($this->session->userdata('user')) < 1) die();
-		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER'])) die();
+		if (sizeof($this->session->userdata('user')) < 1)
+			die();
+		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER']))
+			die();
 
 		$search = "";
 
 		$start = (int) $this->input->post("start");
 		$length = (int) $this->input->post("length");
-		if ($length > 0) $filter = " LIMIT " . $length . " OFFSET " . $start;
-		else $filter = "";
+		if ($length > 0)
+			$filter = " LIMIT " . $length . " OFFSET " . $start;
+		else
+			$filter = "";
 
 		$sts = $this->input->post('filter');
 		if (!empty($sts)) {
@@ -62,7 +68,8 @@ class Datapns extends CI_Controller
 		// die($sts);
 
 		$sql = "SELECT * FROM (" . $sql . ") TBLDATA ";
-		if (isset($_POST['search']['value'])) $sql .= "WHERE LOWER(nama) like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%'";
+		if (isset($_POST['search']['value']))
+			$sql .= "WHERE LOWER(nama) like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%'";
 
 		// $search = '';
 		// if ($this->input->post("search")['value'] != '') $sql .= "WHERE LOWER(nama) like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%' ";
@@ -91,11 +98,13 @@ class Datapns extends CI_Controller
 
 	public function tambah()
 	{
-		if (@sizeof($this->session->userdata('user')) < 1) redirect('/auth/login', 'refresh');
-		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER'])) redirect('/mainku/dashboard', 'refresh');
+		if (@sizeof($this->session->userdata('user')) < 1)
+			redirect('/auth/login', 'refresh');
+		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER']))
+			redirect('/mainku/dashboard', 'refresh');
 
 		$data = [
-			'judul'			=> 'Tambah Data Pegawai',
+			'judul' => 'Tambah Data Pegawai',
 			'diskripsi' => '<hr>'
 		];
 
@@ -104,31 +113,33 @@ class Datapns extends CI_Controller
 
 	public function tambahData()
 	{
-		if (@sizeof($this->session->userdata('user')) < 1) redirect('/auth/login', 'refresh');
-		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER'])) redirect('/mainku/dashboard', 'refresh');
+		if (@sizeof($this->session->userdata('user')) < 1)
+			redirect('/auth/login', 'refresh');
+		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER']))
+			redirect('/mainku/dashboard', 'refresh');
 
 		$nip = $this->input->post('nip');
 		$nama = $this->input->post('nama');
 
 		$data = array(
-			''	=> null,
-			'nip' 	=> $this->input->post('nip'),
-			'nama'	=> $this->input->post('nama'),
-			'agama'	=> $this->input->post('agama'),
-			'ruang'	=> $this->input->post('ruang'),
-			'nmskpd'	=> $this->input->post('opd'),
-			'alamat'	=> $this->input->post('alamat'),
-			'status'	=> 'Aktif',
-			'tgl_lahir'	=> shortdate_indo($this->input->post('tgllahir')),
-			'pendidikan'	=> $this->input->post('pendidikan'),
-			'tempat_lahir'	=> $this->input->post('tempatlahir'),
-			'jenis_kelamin'	=> $this->input->post('jeniskelamin'),
-			'pangkat_golongan'	=> $this->input->post('pangkat'),
-			'jabatan_pekerjaan'	=> $this->input->post('jabatan'),
+			'' => null,
+			'nip' => $this->input->post('nip'),
+			'nama' => $this->input->post('nama'),
+			'agama' => $this->input->post('agama'),
+			'ruang' => $this->input->post('ruang'),
+			'nmskpd' => $this->input->post('opd'),
+			'alamat' => $this->input->post('alamat'),
+			'status' => 'Aktif',
+			'tgl_lahir' => shortdate_indo($this->input->post('tgllahir')),
+			'pendidikan' => $this->input->post('pendidikan'),
+			'tempat_lahir' => $this->input->post('tempatlahir'),
+			'jenis_kelamin' => $this->input->post('jeniskelamin'),
+			'pangkat_golongan' => $this->input->post('pangkat'),
+			'jabatan_pekerjaan' => $this->input->post('jabatan'),
 			// 'jenis_kepegawaian'	=> 1,
-			'status_kepegawaian'	=> $this->input->post('statuspegawai'),
+			'status_kepegawaian' => $this->input->post('statuspegawai'),
 			'tmt_pangkat_golongan' => shortdate_indo($this->input->post('tmt_pangkat_golongan')),
-			'tmt_jabatan_pekerjaan'	=> shortdate_indo($this->input->post('tmt_jabatan_pekerjaan'))
+			'tmt_jabatan_pekerjaan' => shortdate_indo($this->input->post('tmt_jabatan_pekerjaan'))
 		);
 
 		try {
@@ -153,16 +164,19 @@ class Datapns extends CI_Controller
 
 	public function ubah()
 	{
-		if (@sizeof($this->session->userdata('user')) < 1) redirect('/auth/login', 'refresh');
-		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER'])) redirect('/mainku/dashboard', 'refresh');
-		if (sizeof($this->session->userdata('user')) < 1) die();
+		if (@sizeof($this->session->userdata('user')) < 1)
+			redirect('/auth/login', 'refresh');
+		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER']))
+			redirect('/mainku/dashboard', 'refresh');
+		if (sizeof($this->session->userdata('user')) < 1)
+			die();
 		// $id = urldecode($nip);
 		$nip = $this->input->get('nip');
 
 		$data = [
-			'judul'			=> 'Ubah Data Pegawai',
+			'judul' => 'Ubah Data Pegawai',
 			'diskripsi' => '<hr>',
-			'list'				=> $this->M_laporan->readdetail($nip)
+			'list' => $this->M_laporan->readdetail($nip)
 		];
 
 		$this->template->render_page('datapns/ubah', $data, TRUE);
@@ -170,31 +184,33 @@ class Datapns extends CI_Controller
 
 	public function ubahData()
 	{
-		if (@sizeof($this->session->userdata('user')) < 1) redirect('/auth/login', 'refresh');
-		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER'])) redirect('/mainku/dashboard', 'refresh');
+		if (@sizeof($this->session->userdata('user')) < 1)
+			redirect('/auth/login', 'refresh');
+		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER']))
+			redirect('/mainku/dashboard', 'refresh');
 
 		$nip = $this->input->post('nip');
 		$nama = $this->input->post('nama');
 
 		$data = array(
-			''	=> null,
-			'nip' 	=> $this->input->post('nip'),
-			'nama'	=> $this->input->post('nama'),
-			'agama'	=> $this->input->post('agama'),
-			'ruang'	=> $this->input->post('ruang'),
-			'nmskpd'	=> $this->input->post('opd'),
-			'alamat'	=> $this->input->post('alamat'),
-			'status'	=> 'Aktif',
-			'tgl_lahir'	=> shortdate_indo($this->input->post('tgllahir')),
-			'pendidikan'	=> $this->input->post('pendidikan'),
-			'tempat_lahir'	=> $this->input->post('tempatlahir'),
-			'jenis_kelamin'	=> $this->input->post('jeniskelamin'),
-			'pangkat_golongan'	=> $this->input->post('pangkat'),
-			'jabatan_pekerjaan'	=> $this->input->post('jabatan'),
+			'' => null,
+			'nip' => $this->input->post('nip'),
+			'nama' => $this->input->post('nama'),
+			'agama' => $this->input->post('agama'),
+			'ruang' => $this->input->post('ruang'),
+			'nmskpd' => $this->input->post('opd'),
+			'alamat' => $this->input->post('alamat'),
+			'status' => 'Aktif',
+			'tgl_lahir' => shortdate_indo($this->input->post('tgllahir')),
+			'pendidikan' => $this->input->post('pendidikan'),
+			'tempat_lahir' => $this->input->post('tempatlahir'),
+			'jenis_kelamin' => $this->input->post('jeniskelamin'),
+			'pangkat_golongan' => $this->input->post('pangkat'),
+			'jabatan_pekerjaan' => $this->input->post('jabatan'),
 			// 'jenis_kepegawaian'	=> 1,
-			'status_kepegawaian'	=> $this->input->post('statuspegawai'),
+			'status_kepegawaian' => $this->input->post('statuspegawai'),
 			'tmt_pangkat_golongan' => shortdate_indo($this->input->post('tmt_pangkat_golongan')),
-			'tmt_jabatan_pekerjaan'	=> shortdate_indo($this->input->post('tmt_jabatan_pekerjaan'))
+			'tmt_jabatan_pekerjaan' => shortdate_indo($this->input->post('tmt_jabatan_pekerjaan'))
 		);
 
 		try {
@@ -221,7 +237,8 @@ class Datapns extends CI_Controller
 
 	public function get($id)
 	{
-		if (sizeof($this->session->userdata('user')) < 1) die();
+		if (sizeof($this->session->userdata('user')) < 1)
+			die();
 		$id = urldecode($id);
 
 		$sql = "SELECT *,convert_from(decrypt(data, nip::bytea, 'aes'),'UTF8')::jsonb as data FROM pns WHERE nip=" . $this->db->escape($id) . " ";
@@ -231,9 +248,11 @@ class Datapns extends CI_Controller
 
 	public function hapus($id)
 	{
-		if (sizeof($this->session->userdata('user')) < 1) die();
+		if (sizeof($this->session->userdata('user')) < 1)
+			die();
 		// if ($this->session->userdata('user')['role']!='MAINTAINER') die();
-		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER'])) die();
+		if (!in_array($this->session->userdata('user')['role'], ['OPERATOR', 'MAINTAINER']))
+			die();
 		$id = urldecode($id);
 
 		try {

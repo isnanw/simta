@@ -7,12 +7,12 @@ class M_ManageDocument extends CI_Model
 
     private function _get_datatables_query()
     {
-        $this->db->select('p.nip as nip,
-                          p.nama as pegawai,
+        $this->db->select('p.id,
+                          p.lokasi,
                           COUNT(CASE WHEN d.is_delete != true then false ELSE NULL END) as jumlah');
-        $this->db->from('pns p');
-        $this->db->join('dms d', 'd.uname = p.nip','LEFT');
-        $this->db->group_by('p.nip, p.nama');
+        $this->db->from('lokasi p');
+        $this->db->join('dms d', 'd.uname = CAST("p"."id" AS TEXT)','LEFT');
+        $this->db->group_by('p.id, p.lokasi');
 
         $i = 0;
         foreach ($this->column_search as $item) {
@@ -59,46 +59,6 @@ class M_ManageDocument extends CI_Model
         return $row->jumlah;
     }
 
-    public function countPegawai()
-    {
-       $jumlahpns = $this->db->query('SELECT COUNT(*) as jumlah FROM pns');
-
-        $row = $jumlahpns->row();
-
-        return $row->jumlah;
-    }
-
-    public function countPNS()
-    {
-       $jumlahpns = $this->db->query("SELECT COUNT(*) as jumlah FROM (
-                        SELECT nip,
-                                nama,
-                                convert_from(decrypt(data, nip::bytea, 'aes'), 'UTF8')::jsonb as
-                                    data
-                        FROM pns
-                        ) pns
-                    WHERE data ->> 'status_kepegawaian' = 'PNS'");
-
-        $row = $jumlahpns->row();
-
-        return $row->jumlah;
-    }
-
-    public function countCPNS()
-    {
-       $jumlahpns = $this->db->query("SELECT COUNT(*) as jumlah FROM (
-                        SELECT nip,
-                                nama,
-                                convert_from(decrypt(data, nip::bytea, 'aes'), 'UTF8')::jsonb as
-                                    data
-                        FROM pns
-                        ) pns
-                    WHERE data ->> 'status_kepegawaian' = 'CPNS'");
-
-        $row = $jumlahpns->row();
-
-        return $row->jumlah;
-    }
 
     public function countHonorer()
     {
@@ -147,11 +107,11 @@ class M_ManageDocument extends CI_Model
 
     public function getDMS($id)
     {
-        $this->db->select('p.nip as nip,
-                          p.nama as pegawai');
-        $this->db->from('pns p');
+        $this->db->select('p.id,
+                          p.lokasi');
+        $this->db->from('lokasi p');
         // $this->db->join('dms d', 'd.uname = p.nip','LEFT');
-        $this->db->where('p.nip', $id);
+        $this->db->where('p.id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }

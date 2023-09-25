@@ -95,26 +95,28 @@ class Laporan extends CI_Controller {
 		else $filter="";
 
 		$search = '';
-		if ($this->input->post("search")['value']!='') $search = "WHERE LOWER(nama) like '%".$this->db->escape_str($this->input->post("search")['value'])."%' ";
-		$sql = "SELECT * FROM pns ".$search." ";
+		// if ($this->input->post("search")['value']!='') $search = "WHERE LOWER(lokasi) like '%".$this->db->escape_str($this->input->post("search")['value'])."%' ";
+		if (isset($this->input->post("search")['value']) && $this->input->post("search")['value'] !== '') {
+			$search = "WHERE LOWER(lokasi) LIKE '%" . $this->db->escape_str($this->input->post("search")['value']) . "%' ";
+		} else {
+			$search = ""; // Atau berikan nilai default jika 'value' tidak ada atau kosong.
+		}
+		$sql = "SELECT * FROM lokasi ".$search." ";
 		$totaldata = $this->db->query($sql)->num_rows();
 
 		$sql = "
-				       SELECT nip,
-				              nama,
-				              convert_from(decrypt(data, nip::bytea, 'aes'), 'UTF8')::jsonb as data
-				       FROM pns ".$search." ORDER BY nip ".$filter;
+				       SELECT *
+				       FROM lokasi ".$search." ORDER BY id ".$filter;
 		$res = $this->db->query($sql);
 		$data = [];
 		while ($row = $res->unbuffered_row('array')) {
-			$json = json_decode($row["data"],true);
-			$row['nama'] = $json['nama'];
-			$row['tgl_lahir'] = $json['tgl_lahir'];
-			$row['nmskpd'] = $json['nmskpd'];
-			$row['jabatan_pekerjaan'] = $json['jabatan_pekerjaan'];
-			$row['jenis_kelamin'] = $json['jenis_kelamin'];
-			$row['detail'] = "<a href=".base_url('Laporan/cetakdetail?nip=').$row['nip']." class=\"btn btn-sm btn-danger\" target=\"_blank\"><i class=\"fa fa-print\"></i></a>
-			<a href=".base_url('managedocument/detaildoklaporan/').$row['nip']." class=\"btn btn-sm btn-info\"><i class=\"fa fa-file-word\"></i></a>";
+			$row['detail'] = "<a href=".base_url('Laporan/cetakdetail?nip=').$row['id']." class=\"btn btn-sm btn-danger\" target=\"_blank\"><i class=\"fa fa-print\"></i></a>
+			<a href=".base_url('managedocument/detaildoklaporan/').$row['id']." class=\"btn btn-sm btn-info\"><i class=\"fa fa-file-word\"></i></a>";
+			if ($row['statustanah'] = 1) {
+				$row['statustanah'] = 'Data Tanah Bermasalah';
+			} else {
+				$row['statustanah'] = 'Data Tanah Tidak Bermasalah';
+			}
 			$data[] = $row;
 		}
 		$jumlahdata = $this->db->query($sql)->num_rows();

@@ -16,89 +16,42 @@ class ManageDocument extends CI_Controller {
 				$this->load->model('M_Honorer', 'mhonorer');
     }
 
+	// public function index()
+	// {
+	// 	$sql = "SELECT * FROM jenisdok ORDER BY kodeberkas";
+	// 	$res = $this->db->query($sql);
+	// 	while ($row = $res->unbuffered_row('array')) {
+	// 		$data['jenisdok'][] = $row;
+	// 	}
+
+	// 	$data = [
+  //           'judul' => 'Data Dokumen Per Status Kepegawaian',
+	// 					'diskripsi' => '<hr>',
+  //           'jumlahpegawai' => $this->mmd->countPegawai(),
+	// 					'jumlahcpns' => $this->mmd->countCPNS(),
+	// 					'jumlahpns' => $this->mmd->countPNS(),
+	// 					'jumlahhonorer' => $this->mmd->countHonorer(),
+  //       ];
+
+	// 	$this->template->render_page('managedocument/lokasi', $data, TRUE);
+	// }
+
 	public function index()
 	{
-		$sql = "SELECT * FROM jenisdok ORDER BY kodeberkas";
+		$sql = "SELECT * FROM lokasi ORDER BY id";
 		$res = $this->db->query($sql);
 		while ($row = $res->unbuffered_row('array')) {
-			$data['jenisdok'][] = $row;
+			$data['lokasi'][] = $row;
 		}
 
 		$data = [
-            'judul' => 'Data Dokumen Per Status Kepegawaian',
-						'diskripsi' => '<hr>',
-            'jumlahpegawai' => $this->mmd->countPegawai(),
-						'jumlahcpns' => $this->mmd->countCPNS(),
-						'jumlahpns' => $this->mmd->countPNS(),
-						'jumlahhonorer' => $this->mmd->countHonorer(),
-        ];
-
-		$this->template->render_page('managedocument/pegawai', $data, TRUE);
-	}
-
-	public function pegawai()
-	{
-		$sql = "SELECT * FROM jenisdok ORDER BY kodeberkas";
-		$res = $this->db->query($sql);
-		while ($row = $res->unbuffered_row('array')) {
-			$data['jenisdok'][] = $row;
-		}
-
-		$data = [
-            'judul' => 'Data Dokumen Per Pegawai',
+            'judul' => 'Data Lokasi',
 						'diskripsi' => '<hr>',
         ];
 
 		$this->template->render_page('managedocument/index', $data, TRUE);
 	}
 
-	public function pns()
-	{
-		$sql = "SELECT * FROM jenisdok ORDER BY kodeberkas";
-		$res = $this->db->query($sql);
-		while ($row = $res->unbuffered_row('array')) {
-			$data['jenisdok'][] = $row;
-		}
-
-		$data = [
-            'judul' => 'Data Dokumen Per Pegawai PNS',
-						'diskripsi' => '<hr>',
-        ];
-
-		$this->template->render_page('managedocument/pns', $data, TRUE);
-	}
-
-	public function cpns()
-	{
-		$sql = "SELECT * FROM jenisdok ORDER BY kodeberkas";
-		$res = $this->db->query($sql);
-		while ($row = $res->unbuffered_row('array')) {
-			$data['jenisdok'][] = $row;
-		}
-
-		$data = [
-            'judul' => 'Data Dokumen Per Pegawai CPNS',
-						'diskripsi' => '<hr>',
-        ];
-
-		$this->template->render_page('managedocument/cpns', $data, TRUE);
-	}
-
-	public function honorer()
-	{
-		$sql = "SELECT * FROM jenisdok ORDER BY kodeberkas";
-		$res = $this->db->query($sql);
-		while ($row = $res->unbuffered_row('array')) {
-			$data['jenisdok'][] = $row;
-		}
-
-		$data = [
-            'judul' => 'Data Dokumen Per Pegawai PNS',
-						'diskripsi' => '<hr>',
-        ];
-
-		$this->template->render_page('managedocument/honorer', $data, TRUE);
-	}
 
   public function detail($id)
     {
@@ -148,11 +101,11 @@ class ManageDocument extends CI_Controller {
                 $row = [];
 
                 // tombol aksi
-                $btnAction = "<a href='" . base_url('') . "managedocument/detail/$field->nip' class='btn btn-info btn-block btn-flat'> Manage </a>";
+                $btnAction = "<a href='" . base_url('') . "managedocument/detail/$field->id' class='btn btn-info btn-block btn-flat'> Manage </a>";
 
                 // isi
-                $row[] = $field->nip;
-                $row[] = $field->pegawai;
+                $row[] = $field->id;
+                $row[] = $field->lokasi;
                 $row[] = $field->jumlah;
                 $row[] = $btnAction;
 
@@ -297,8 +250,8 @@ class ManageDocument extends CI_Controller {
 		// var_dump($cekstatus);
 
 		$search = '';
-		if ($this->input->post("search")['value']!='') $search = "AND LOWER(uraian) like '%".$this->db->escape_str($this->input->post("search")['value'])."%' ";
-		$sql = "SELECT * FROM dms WHERE is_delete != 'true' AND uname='".$id."' ".$search." ";
+		if ($this->input->post("search")['value']!='') $search = "WHERE LOWER(uraian) like '%".$this->db->escape_str($this->input->post("search")['value'])."%' ";
+		$sql = "SELECT * FROM lokasi ".$search." ";
 		$totaldata = $this->db->query($sql)->num_rows();
 		// die($sql);
 		$sql = "SELECT * FROM dms WHERE is_delete != 'true' AND uname='".$id."' ".$search." ORDER BY tanggal DESC ".$filter;
