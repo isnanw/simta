@@ -66,7 +66,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </select>
                   </div>
                   <div class="col-md-12">Koordinat Peta</label>
-                    <input required id="koordinat" name="koordinat" type="text" class="form-control">
+                    <input required id="koordinat" name="koordinat" type="text" class="form-control" readonly>
                   </div>
                   <hr>
                   <div class="col-12">
@@ -78,6 +78,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </form>
                 <!-- END : Block styled form -->
               </div>
+              <div id="map" style="height: 500px;"></div>
             </div>
           </div>
         </div>
@@ -101,6 +102,73 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </section>
 
 <script language="javascript">
+  // Membaca elemen form dan input
+  const coordinateForm = document.getElementById("frm");
+  const coordinatesInput = document.getElementById("koordinat");
+
+  // Inisialisasi peta Leaflet
+  const map = L.map("map").setView([-4.47854, 136.891582], 12);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+  }).addTo(map);
+
+  // Membuat marker untuk menampilkan lokasi saat pengguna mengklik peta
+  let marker;
+
+  // Fungsi untuk mengisi nilai koordinat ke dalam input form
+  function fillCoordinates(position) {
+    const { latitude, longitude } = position.coords;
+    const coordinates = `${latitude},${longitude}`;
+    coordinatesInput.value = coordinates;
+
+    // Hapus marker yang ada (jika ada) dan tambahkan marker baru
+    if (marker) {
+      map.removeLayer(marker);
+    }
+    marker = L.marker([latitude, longitude]).addTo(map);
+  }
+
+  // Fungsi untuk menangani kesalahan dalam mendapatkan lokasi
+  function handleLocationError(error) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        console.error("User denied the request for Geolocation.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        console.error("Location information is unavailable.");
+        break;
+      case error.TIMEOUT:
+        console.error("The request to get user location timed out.");
+        break;
+      case error.UNKNOWN_ERROR:
+        console.error("An unknown error occurred.");
+        break;
+    }
+  }
+
+  // Event listener untuk mengisi nilai koordinat saat form disubmit
+  coordinateForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(fillCoordinates, handleLocationError);
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  });
+
+  // Event listener untuk mengisi nilai koordinat saat pengguna mengklik peta
+  map.on("click", function (e) {
+    const { lat, lng } = e.latlng;
+    const coordinates = `${lat},${lng}`;
+    coordinatesInput.value = coordinates;
+
+    // Hapus marker yang ada (jika ada) dan tambahkan marker baru
+    if (marker) {
+      map.removeLayer(marker);
+    }
+    marker = L.marker([lat, lng]).addTo(map);
+  });
+
 
   $(function () {
     $('#frm')

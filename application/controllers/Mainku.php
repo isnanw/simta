@@ -140,10 +140,15 @@ class Mainku extends CI_Controller
                                               j.kodeberkas
                                             order by
                                               jumlah DESC;')->result_array(),
-        // 'jumlahpegawai' => $this->mmd->countPegawai(),
-        // 'jumlahcpns' => $this->mmd->countCPNS(),
-        // 'jumlahpns' => $this->mmd->countPNS(),
-        // 'jumlahhonorer' => $this->mmd->countHonorer(),
+      'rekaplokasi' => $this->db->query('select
+                                          l.id,
+                                          l.lokasi,l.koordinat,
+                                          COUNT(case when d.is_delete != true then false else null end) as jumlah
+                                        from
+                                          lokasi l
+                                        left join dms d on
+                                          d.uname = cast(l.id as text)
+                                        group by l.id, l.lokasi ')->result_array(),
       ];
 
       $menu = [];

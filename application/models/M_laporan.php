@@ -4,50 +4,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class M_laporan extends CI_Model
 {
 	public function __construct()
-    {
-        parent::__construct();
-        $this->load->helper('tgl_indo');
+	{
+		parent::__construct();
+		$this->load->helper('tgl_indo');
 
-    }
-    public function read($status)
-    {
+	}
+	public function read($status)
+	{
 
-    	if ($status == '1') {
-    		$xfilter = 'PNS';
-    		$sql = "WHERE data ->> 'status_kepegawaian' = '$xfilter' ";
-    	} elseif ($status == '2') {
-    		$xfilter = 'CPNS';
-    		$sql = "WHERE data ->> 'status_kepegawaian' = '$xfilter' ";
-    	} elseif ($status == '3') {
-    		$xfilter = 'HONORER';
-    		$sql = "WHERE data ->> 'status_kepegawaian' = '$xfilter' ";
-    	}else{
-    		$xfilter = '';
-    		$sql = '';
-    	}
+		if ($status == '1') {
+			$xfilter = 1;
+			$sql = "WHERE statustanah = '$xfilter' ";
+		} elseif ($status == '2') {
+			$xfilter = 2;
+			$sql = "WHERE statustanah = '$xfilter' ";
+		} else {
+			$xfilter = '';
+			$sql = '';
+		}
 
-    	$query = "
-
-    			SELECT nip,
-				       nama,
-				       data ->> 'tgl_lahir' as tgl_lahir,
-				       data ->> 'jenis_kelamin' as jenis_kelamin,
-				       data ->> 'nmskpd' as nmskpd,
-				       data ->> 'jabatan_pekerjaan' as jabatan_pekerjaan
-				FROM (
-				       SELECT nip,
-				              nama,
-				              convert_from(decrypt(data, nip::bytea, 'aes'), 'UTF8')::jsonb as data
-				       FROM pns
-				     ) X
-				     $sql
+		$query = "
+							SELECT l.*, d.kodeberkas
+							FROM lokasi l
+							LEFT JOIN dms d ON l.id::text = d.uname
+							$sql
+							order by l.id, d.kodeberkas
     			 ";
-        return $this->db->query($query)->result_array();
-    }
+		return $this->db->query($query)->result_array();
+	}
 
-    public function readdetail($nip)
-    {
-    	$query = "
+	public function readdetail($nip)
+	{
+		$query = "
     			SELECT nip,
 				       nama,
 				       data ->> 'agama' as agama,
@@ -75,8 +63,8 @@ class M_laporan extends CI_Model
 				     ) X
 				 WHERE nip = '$nip'
     			 ";
-        return $this->db->query($query)->row_array();
-    }
+		return $this->db->query($query)->row_array();
+	}
 
 	public function readdetaillokasi($id)
 	{
@@ -87,13 +75,13 @@ class M_laporan extends CI_Model
 		return $this->db->query($query)->row_array();
 	}
 
-    public function readdokumen($nip)
-    {
-    	$query = "
+	public function readdokumen($nip)
+	{
+		$query = "
 
     			SELECT * FROM dms WHERE uname = '$nip' AND is_delete != true
     	";
 
-    	return $this->db->query($query)->result_array();
-    }
+		return $this->db->query($query)->result_array();
+	}
 }

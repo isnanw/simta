@@ -9,13 +9,13 @@
 <body>
     <div style="width:auto; margin: auto;">
         <center>
-            <h3>DETAIL PEGAWAI</h3>
+            <h3>Detail Lokasi Pertanahan</h3>
             <h4>DINAS PERUMAHAN, KAWASAN PERMUKIMAN DAN PERTANAHAN</h4>
             <table width="100%" style="border-collapse:collapse;">
                 <tr>
-                    <td width="45%">NIP</td>
+                    <td width="45%">Nama Lokasi</td>
                     <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['nip']; ?></td>
+                    <td width="50%"><?= $list['lokasi']; ?></td>
                 </tr>
                 <tr>
                     <td width="45%">Nama</td>

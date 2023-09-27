@@ -60,42 +60,42 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </section>
 
 <script>
-    const map = L.map('map').setView([-4.6640, 136.6315], 10);
+    const map = L.map('map').setView([-4.47854, 136.891582], 11);
 
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    // const marker = L.marker([51.5, -0.09]).addTo(map)
-    //     .bindPopup('<b>Hello world!</b><br />I am a popup.').openPopup();
+    var rekaplokasi = <?php echo json_encode($rekaplokasi); ?>;
 
-    // const circle = L.circle([51.508, -0.11], {
-    //     color: 'red',
-    //     fillColor: '#f03',
-    //     fillOpacity: 0.5,
-    //     radius: 500
-    // }).addTo(map).bindPopup('I am a circle.');
+    rekaplokasi.forEach(function (coordinate) {
+        var match = coordinate.koordinat.match(/\((-?\d+\.\d+),(-?\d+\.\d+)\)/);
+        if (match) {
+            var latitude = parseFloat(match[1]);
+            var longitude = parseFloat(match[2]);
+            var lokasi = coordinate.lokasi;
+            var jumlah = coordinate.jumlah;
 
-    // const polygon = L.polygon([
-    //     [51.509, -0.08],
-    //     [51.503, -0.06],
-    //     [51.51, -0.047]
-    // ]).addTo(map).bindPopup('I am a polygon.');
+            L.marker([latitude, longitude])
+                .addTo(map)
+                .bindPopup('<b>' + lokasi + '</b><br />Jumlah Dokumen : ' + jumlah + '')
+                .openPopup();
+        }
+    });
 
+    const popup = L.popup()
+        // .setLatLng([-4.6640, 136.6315])
+        .setContent('I am a standalone popup.')
+        // .openOn(map);
 
-    // const popup = L.popup()
-    //     .setLatLng([51.513, -0.09])
-    //     .setContent('I am a standalone popup.')
-    //     .openOn(map);
+    function onMapClick(e) {
+        popup
+            .setLatLng(e.latlng)
+            .setContent(`You clicked the map at ${e.latlng.toString()}`)
+            .openOn(map);
+    }
 
-    // function onMapClick(e) {
-    //     popup
-    //         .setLatLng(e.latlng)
-    //         .setContent(`You clicked the map at ${e.latlng.toString()}`)
-    //         .openOn(map);
-    // }
-
-    // map.on('click', onMapClick);
+    map.on('click', onMapClick);
 
 </script>
