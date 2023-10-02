@@ -18,60 +18,26 @@
                     <td width="50%"><?= $list['lokasi']; ?></td>
                 </tr>
                 <tr>
-                    <td width="45%">Nama</td>
+                    <td width="45%">Distrik</td>
                     <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['nama']; ?></td>
+                    <td width="50%"><?= $list['distrik']; ?></td>
                 </tr>
                 <tr>
-                    <td width="45%">Jenis Kelamin</td>
+                    <td width="45%">Tahun Pengadaan</td>
                     <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['jenis_kelamin']; ?></td>
+                    <td width="50%"><?= $list['tahunpengadaan']; ?></td>
                 </tr>
                 <tr>
-                    <td width="45%">Tampat/Tanggal Lahir</td>
+                    <td width="45%">Status Tanah</td>
                     <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['tempat_lahir']; ?>, <?= $tgl_lahir; ?></td>
+                    <td width="50%"><?= $list['statustanah']; ?></td>
                 </tr>
                 <tr>
-                    <td width="45%">Alamat</td>
+                    <td width="45%">Koordinat</td>
                     <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['alamat']; ?></td>
+                    <td width="50%"><?= $list['koordinat']; ?></td>
                 </tr>
-                <tr>
-                    <td width="45%">Pendidikan</td>
-                    <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['pendidikan']; ?></td>
-                </tr>
-                <tr>
-                    <td width="45%">Agama</td>
-                    <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['agama']; ?></td>
-                </tr>
-                <tr>
-                    <td width="45%">Pangkat Golongan</td>
-                    <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['pangkat_golongan']; ?></td>
-                </tr>
-                <tr>
-                    <td width="45%">Jabatan</td>
-                    <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['jabatan_pekerjaan']; ?></td>
-                </tr>
-                <tr>
-                    <td width="45%">Status Kepegawaian</td>
-                    <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $list['status_kepegawaian']; ?></td>
-                </tr>
-                <tr>
-                    <td width="45%">Terhitung Mulai Tanggal Pangkat Golongan</td>
-                    <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $tglpangkat; ?></td>
-                </tr>
-                <tr>
-                    <td width="45%">Terhitung Mulai Tanggal Jabatan Pekerjaan</td>
-                    <td width="5%"><center>:</center></td>
-                    <td width="50%"><?= $tgljabatan; ?></td>
-                </tr>
+
             </tr>
         </table>
     </center>

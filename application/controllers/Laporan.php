@@ -74,22 +74,22 @@ class Laporan extends CI_Controller
 		$search = '';
 		if ($this->input->post("search")['value'] != '')
 			$search = "AND nama like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%' ";
-		$sql = "SELECT nip,nama,data->>'nmskpd' as skpd,
+		$sql = "SELECT id,nama,data->>'nmskpd' as skpd,
 					   DATE_PART('YEAR',AGE(now(),to_timestamp(((data->>'tgllhr')::bigint - 25569) * 86400))) as usia,
 					   to_timestamp(((data->>'tmtkgb')::bigint - 25569) * 86400)::date as kgb,
 					   to_timestamp(((data->>'tmtkgbyad')::bigint - 25569) * 86400)::date as kgbyad
 				FROM (
-		           SELECT nip,nama,convert_from(decrypt(data, nip::bytea, 'aes'),'UTF8')::jsonb as data FROM pns
+		           SELECT id,nama,convert_from(decrypt(data, id::bytea, 'aes'),'UTF8')::jsonb as data FROM pns
 				) X WHERE " . $laporan . " " . $search . " ";
 		$totaldata = $this->db->query($sql)->num_rows();
 
-		$sql = "SELECT nip,nama,data->>'nmskpd' as skpd,
+		$sql = "SELECT id,nama,data->>'nmskpd' as skpd,
 					   DATE_PART('YEAR',AGE(now(),to_timestamp(((data->>'tgllhr')::bigint - 25569) * 86400))) as usia,
 					   to_timestamp(((data->>'tmtkgb')::bigint - 25569) * 86400)::date as kgb,
 					   to_timestamp(((data->>'tmtkgbyad')::bigint - 25569) * 86400)::date as kgbyad
 				FROM (
-		           SELECT nip,nama,convert_from(decrypt(data, nip::bytea, 'aes'),'UTF8')::jsonb as data FROM pns
-				) X WHERE " . $laporan . " " . $search . " ORDER BY data->>'nmskpd',nip DESC " . $filter;
+		           SELECT id,nama,convert_from(decrypt(data, id::bytea, 'aes'),'UTF8')::jsonb as data FROM pns
+				) X WHERE " . $laporan . " " . $search . " ORDER BY data->>'nmskpd',id DESC " . $filter;
 		$res = $this->db->query($sql);
 		$data = [];
 		while ($row = $res->unbuffered_row('array')) {
@@ -134,7 +134,7 @@ class Laporan extends CI_Controller
 		$res = $this->db->query($sql);
 		$data = [];
 		while ($row = $res->unbuffered_row('array')) {
-			$row['detail'] = "<a href=" . base_url('Laporan/cetakdetail?nip=') . $row['id'] . " class=\"btn btn-sm btn-danger\" target=\"_blank\"><i class=\"fa fa-print\"></i></a>
+			$row['detail'] = "<a href=" . base_url('Laporan/cetakdetail?id=') . $row['id'] . " class=\"btn btn-sm btn-danger\" target=\"_blank\"><i class=\"fa fa-print\"></i></a>
 			<a href=" . base_url('managedocument/detaildoklaporan/') . $row['id'] . " class=\"btn btn-sm btn-info\"><i class=\"fa fa-file-word\"></i></a>";
 			if ($row['statustanah'] = 1) {
 				$row['statustanah'] = 'Data Tanah Bermasalah';
@@ -182,12 +182,12 @@ class Laporan extends CI_Controller
 	{
 		$data['title'] = 'Laporan';
 		$data['hariini'] = date('d F Y');
-		$nip = $this->input->get('nip');
-		$tgl = $this->M_laporan->readdetail($nip);
+		$id = $this->input->get('id');
+		$tgl = $this->M_laporan->readdetail($id);
 
-		$data['list'] = $this->M_laporan->readdetail($nip);
+		$data['list'] = $this->M_laporan->readdetail($id);
 
-		$data['dokumen'] = $this->M_laporan->readdokumen($nip);
+		$data['dokumen'] = $this->M_laporan->readdokumen($id);
 
 		// $data['tgl_lahir'] = mediumdate_indo($tgl['tgl_lahir']);
 
