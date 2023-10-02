@@ -5,9 +5,9 @@
     <section id="content" class="content">
       <div class="content__header content__boxed overlapping">
 				<div class="content__wrap">
-          <h1 class="page-title mb-0 mt-2"><i class="fas fa-user"></i><?= $detailpegawai['pegawai']; ?></h1>
+          <h1 class="page-title mb-0 mt-2"><i class="fas fa-user"></i><?= $detailpegawai['lokasi']; ?></h1>
             <div class="callout callout-info">
-              <h5> <?= $detailpegawai['nip']; ?></h5>
+              <!-- <h5> <?= $detailpegawai['id']; ?></h5> -->
 
             </div>
 				</div>

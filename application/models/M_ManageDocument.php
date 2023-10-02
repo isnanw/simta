@@ -1,8 +1,8 @@
 <?php
 class M_ManageDocument extends CI_Model
 {
-    var $column_order = ['p.nip', 'p.nama', 'jumlah'];
-    var $column_search = ['p.nip', 'p.nama'];
+    var $column_order = ['p.id', 'p.nama', 'jumlah'];
+    var $column_search = ['p.id', 'p.nama'];
     var $order = ['jumlah' => 'DESC'];
 
     private function _get_datatables_query()
@@ -63,9 +63,9 @@ class M_ManageDocument extends CI_Model
     public function countHonorer()
     {
        $jumlahpns = $this->db->query("SELECT COUNT(*) as jumlah FROM (
-                        SELECT nip,
+                        SELECT id,
                                 nama,
-                                convert_from(decrypt(data, nip::bytea, 'aes'), 'UTF8')::jsonb as
+                                convert_from(decrypt(data, id::bytea, 'aes'), 'UTF8')::jsonb as
                                     data
                         FROM pns
                         ) pns
@@ -110,7 +110,7 @@ class M_ManageDocument extends CI_Model
         $this->db->select('p.id,
                           p.lokasi');
         $this->db->from('lokasi p');
-        // $this->db->join('dms d', 'd.uname = p.nip','LEFT');
+        // $this->db->join('dms d', 'd.uname = p.id','LEFT');
         $this->db->where('p.id', $id);
         $query = $this->db->get();
         return $query->row_array();
