@@ -758,7 +758,7 @@ p {
 	06. Login Style 3
 ==============================================================*/
 .index3 .style3{
-	background: url(../images/banner2.jpg) no-repeat;
+	background: url(../images/bg_simta.png) no-repeat;
 	background-size: cover;
 	background-position: center center;
 }
@@ -783,7 +783,8 @@ p {
 }
 .style3 .login-form-slider .slide{
 	padding: 270px 30px 20px;
-	background: url(../images/style3img.jpg) no-repeat #09406a;
+	background: url(../images/bg_simta_log.png) no-repeat #09406a;
+	background-size: 400px 230px;
 	background-position: center top;
 }
 .style3 .form-group{
