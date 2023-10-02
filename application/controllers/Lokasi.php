@@ -26,11 +26,6 @@ class Lokasi extends CI_Controller
 
     $this->template->render_page('lokasi/index', $data, TRUE);
 
-    // $data = [];
-
-    // $content = $this->load->view('lokasi', $data, TRUE);
-
-    // $this->load->view('main',['content'=>$content]);
   }
 
   //fungsi-fungsi AJAX
@@ -51,6 +46,7 @@ class Lokasi extends CI_Controller
       $filter = "";
 
     $sts = $this->input->post('filter');
+    $sts1 = $this->input->post('filter1');
     if (!empty($sts)) {
       if ($sts == 0) {
         $search = "";
@@ -59,7 +55,15 @@ class Lokasi extends CI_Controller
       } elseif ($sts == 2) {
         $search = "WHERE statustanah = 2 ";
       }
-    } elseif ($this->input->post("search")['value'] != ''){
+    } elseif (!empty($sts1)) {
+      $search = "WHERE tahunpengadaan = " . $sts1 . "";
+    }
+
+    if(!empty($sts) && !empty($sts1)){
+      $search = "WHERE statustanah = " . $sts . " AND tahunpengadaan = ".$sts1."";
+    }
+
+    if ($this->input->post("search")['value'] != '') {
       $search = "WHERE LOWER(lokasi) like '%" . $this->db->escape_str($this->input->post("search")['value']) . "%' ";
     }
 

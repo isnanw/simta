@@ -31,7 +31,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="content__wrap">
       <!-- Table with toolbar -->
       <div class="card">
-        <div class="card-header -4 mb-3">
+        <div class="card-header">
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -40,16 +40,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="col-md-3">
                       <label for="filter"><b>Filter Status Tanah</b></label>
                       <select id="filter" name="filter" class="form-control">
-                        <option value="0">---Semua---</option>
+                        <option value="0">--- Semua ---</option>
                         <option value="2">Data Tanah Tidak Bermasalah</option>
                         <option value="1">Data Tanah Bermasalah</option>
                       </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="filter1"><b>Filter Tahun</b></label>
+                      <select id="filter1" name="filter1" class="form-control">
+                        <option value="0">--- Semua Tahun ---</option>
+                        <?php
+                        $sql1 = "SELECT distinct tahunpengadaan from lokasi ";
+                        $res = $this->db->query($sql1);
+                        while ($row1 = $res->unbuffered_row('array')) {
+                          ?>
+                          <option value="<?= $row1['tahunpengadaan']; ?>">
+                            <?= $row1['tahunpengadaan']; ?>
+                          </option>
+                          <?php
+                        }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
                       <br>
-                      <a href="<?= base_url('lokasi/tambah'); ?>" type="button" class="btn btn-primary"><i
-                          class="nav-icon fas fa-plus"></i>
-                        Tambah </a>
                       <button type="button" id="btn-filter" class="btn btn-success"><i
                           class="nav-icon fas fa-check"></i>Filter</button>
+                    </div>
+                    <div class="col-md-3">
+                      <br>
+                      <a style="float: right;" href="<?= base_url('lokasi/tambah'); ?>" type="button" class="btn btn-primary"><i
+                          class="nav-icon fas fa-plus"></i>
+                        Tambah </a>
                     </div>
                   </div>
                 </div>
@@ -219,6 +241,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         "type": "POST",
         "data": function (data) {
           data.filter = $('#filter').val();
+          data.filter1 = $('#filter1').val();
         }
       },
       "columns": [{
