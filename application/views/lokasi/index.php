@@ -69,8 +69,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </div>
                     <div class="col-md-3">
                       <br>
-                      <a style="float: right;" href="<?= base_url('lokasi/tambah'); ?>" type="button" class="btn btn-primary"><i
-                          class="nav-icon fas fa-plus"></i>
+                      <a style="float: right;" href="<?= base_url('lokasi/tambah'); ?>" type="button"
+                        class="btn btn-primary"><i class="nav-icon fas fa-plus"></i>
                         Tambah </a>
                     </div>
                   </div>
@@ -245,7 +245,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
         }
       },
       "columns": [{
-        "data": "id"
+        "data": null,
+        "orderable": false,
+        "render": function (data, type, row, meta) {
+          // Gunakan meta.row untuk mendapatkan nomor urut
+          return meta.row + 1;
+        }
       },
       {
         "data": "lokasi"

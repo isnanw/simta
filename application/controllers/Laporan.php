@@ -136,7 +136,7 @@ class Laporan extends CI_Controller
 		while ($row = $res->unbuffered_row('array')) {
 			$row['detail'] = "<a href=" . base_url('Laporan/cetakdetail?id=') . $row['id'] . " class=\"btn btn-sm btn-danger\" target=\"_blank\"><i class=\"fa fa-print\"></i></a>
 			<a href=" . base_url('managedocument/detaildoklaporan/') . $row['id'] . " class=\"btn btn-sm btn-info\"><i class=\"fa fa-file-word\"></i></a>";
-			if ($row['statustanah'] = 1) {
+			if ($row['statustanah'] == 1) {
 				$row['statustanah'] = 'Data Tanah Bermasalah';
 			} else {
 				$row['statustanah'] = 'Data Tanah Tidak Bermasalah';

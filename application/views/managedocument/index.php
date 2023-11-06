@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                    <th>NIP</th>
+                    <th>No</th>
                     <th>Nama</th>
                     <th>Jumlah Dokumen</th>
                     <th>Aksi</th>

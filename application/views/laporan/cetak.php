@@ -29,34 +29,41 @@
                     $current_location = null;
 
                     foreach ($list as $row):
-                        $no = $i;
                         $nama_lokasi = $row['lokasi'];
                         $nama_dokumen = $row['kodeberkas'];
                         $distrik = $row['distrik'];
                         $tahun = $row['tahunpengadaan'];
                         $statustanah = $row['statustanah'];
+                        $statustanahText = ($statustanah == 1) ? "Tanah Bermasalah" : "Tanah Tidak Bermasalah";
+
                         if ($nama_lokasi != $current_location) {
                             echo "<tr>
-                                    <td><strong>$no</strong></td>
-                                    <td><strong>$nama_lokasi</strong></td>
-                                    <td>$distrik</td>
-                                     <td>$tahun</td>
-                                      <td>$statustanah</td>
-                                </tr>";
+                            <td>$i</td>
+                            <td><strong>$nama_lokasi</strong></td>
+                            <td>$distrik</td>
+                            <td>$tahun</td>
+                            <td>$statustanahText</td>
+                        </tr>";
                             $current_location = $nama_lokasi;
+                            $i++;
                         }
 
-                        echo "<tr><td></td><td colspan='4'>&nbsp;&nbsp;&nbsp;&nbsp;&bull;$nama_dokumen</td></tr>";
-                        ?>
-                        <!-- <tr>
-                        <td style="width: 5%; vertical-align:top"><?= $i; ?></td>
-                        <td style="width: 20%; vertical-align:top"><?= $b['lokasi']; ?></td>
-                        <td style="width: 20%; vertical-align:top"><?= $b['distrik']; ?></td>
-                        <td style="width: 15%; vertical-align:top"> <center><?= $b['tahunpengadaan']; ?></center></td>
-                        <td style="width: 25%; vertical-align:top"><?= $b['koordinat']; ?></td>
-                    </tr> -->
-                        <?php $i++; ?>
-                    <?php endforeach; ?>
+                        echo "<tr>
+                                <td></td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&bull;";
+                                    if (!empty($nama_dokumen)) {
+                                        echo $nama_dokumen;
+                                    } else {
+                                        echo 'Belum Unggah Dokumen';
+                                    }
+                        echo "   </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>";
+                    endforeach;
+                    ?>
+
                 </tbody>
             </table>
         </center>

@@ -116,7 +116,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			"processing": true, "serverSide": false, "ordering": false,
 			"ajax": { "url": "<?= base_url('index.php/' . $this->router->class . '/listdetail'); ?>", "type": "POST" },
 			"columns": [
-				{ "data": "id" },
+				{ "data": null,
+        "orderable": false,
+        "render": function (data, type, row, meta) {
+          // Gunakan meta.row untuk mendapatkan nomor urut
+          return meta.row + 1;
+        } },
 				{ "data": "lokasi" },
 				{ "data": "distrik" },
 				{ "data": "tahunpengadaan" },
