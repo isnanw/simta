@@ -75,11 +75,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
             var latitude = parseFloat(match[1]);
             var longitude = parseFloat(match[2]);
             var lokasi = coordinate.lokasi;
+            var status = coordinate.statustanah;
             var jumlah = coordinate.jumlah;
 
-            L.marker([latitude, longitude])
+            var blueIcon = L.icon({
+                iconUrl: '<?= base_url('assets/blue.png'); ?>',
+                iconSize: [25, 32], // Sesuaikan dengan ukuran ikon Anda
+            });
+
+            var redIcon = L.icon({
+                iconUrl: '<?= base_url('assets/red.png'); ?>',
+                iconSize: [25, 32], // Sesuaikan dengan ukuran ikon Anda
+            });
+
+            var bermasalah = 'Tanah Bermasalah';
+            var takbermasalah = 'Tanah Tidak Bermasalah';
+
+            // Pilih ikon berdasarkan nilai statustanah
+            var icon = status === '1' ? redIcon : blueIcon;
+            var statustanah = status === '1' ? bermasalah : takbermasalah;
+
+            L.marker([latitude, longitude], { icon: icon })
                 .addTo(map)
-                .bindPopup('<b>' + lokasi + '</b><br />Jumlah Dokumen : ' + jumlah + '')
+                .bindPopup('<b>' + statustanah + '</b><br />' + '<b>' + lokasi + '</b><br />Jumlah Dokumen : ' + jumlah + '')
                 .openPopup();
         }
     });
@@ -87,7 +105,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     const popup = L.popup()
         // .setLatLng([-4.6640, 136.6315])
         .setContent('I am a standalone popup.')
-        // .openOn(map);
+    // .openOn(map);
 
     function onMapClick(e) {
         popup

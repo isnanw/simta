@@ -141,7 +141,7 @@ class Mainku extends CI_Controller
                                             order by
                                               jumlah DESC;')->result_array(),
       'rekaplokasi' => $this->db->query('select
-                                          l.id,
+                                          l.id,l.statustanah,
                                           l.lokasi,l.koordinat,
                                           COUNT(case when d.is_delete != true then false else null end) as jumlah
                                         from
