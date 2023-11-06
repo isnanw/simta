@@ -9,9 +9,9 @@
             <div class="callout callout-info">
               <!-- <h4> <?= $detailpegawai['id']; ?></h4> -->
 							<hr>
- 							<a type="button" href="<?= base_url('managedocument')?>" class="btn btn-danger"> Status Kepegawaian</a>
+ 							<!-- <a type="button" href="<?= base_url('managedocument')?>" class="btn btn-danger"> Status Kepegawaian</a>
               <input class="btn btn-warning" type="button" value="Pegawai" onclick="history.back(-1)" />
-							<a type="button" href="" class="btn btn-success"> Dokumen</a>
+							<a type="button" href="" class="btn btn-success"> Dokumen</a> -->
             </div><br>
 				</div>
 			</div>
